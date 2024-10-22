@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket 示例</title>
+</head>
+<body>
+    <h1>WebSocket 客户端</h1>
+    <button id="sendMessageButton">发送消息</button>
+    <div id="log"></div>
+
+    <script>
+        // 创建 WebSocket 连接
+        const ws = new WebSocket("ws://localhost:8080/websocket");
+
+        // 监听连接打开事件
+        ws.onopen = function() {
+            console.log("WebSocket 连接已建立");
+            document.getElementById("log").innerHTML += "<p>WebSocket 连接已建立</p>";
+        };
+
+        // 监听消息接收事件
+        ws.onmessage = function(event) {
+            console.log("收到消息: " + event.data);
+            document.getElementById("log").innerHTML += "<p>收到消息: " + event.data + "</p>";
+        };
+
+        // 监听错误事件
+        ws.onerror = function(event) {
+            console.error("WebSocket 错误: ", event);
+            document.getElementById("log").innerHTML += "<p>WebSocket 错误</p>";
+        };
+
+        // 监听连接关闭事件
+        ws.onclose = function() {
+            console.log("WebSocket 连接已关闭");
+            document.getElementById("log").innerHTML += "<p>WebSocket 连接已关闭</p>";
+        };
+
+        // 发送消息
+        document.getElementById("sendMessageButton").onclick = function() {
+            const message = "Hello from the client!";
+            console.log("发送消息: " + message);
+            ws.send(message);
+        };
+    </script>
+</body>
+</html>
+
